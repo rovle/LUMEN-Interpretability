@@ -1,4 +1,5 @@
 import os
+from math import ceil
 
 def distance(x, y):
     return (x[1] - y[1])**2 + (x[0] - y[0])**2
@@ -9,23 +10,27 @@ def coors(filename):
         f = f.split(' ')
         f = f[5:7]
         f = [float(x) for x in f]
-     return tuple(f)
+    return tuple(f)
 
 def folders_to_coors(folder_name):
     coor_set = list()
     for file in os.listdir(folder_name):
-    if file[-3:] == 'txt':
+        if file[-3:] == 'txt':
+            try:
+                coords = coors(os.path.join(folder_name, file))
+            except UnicodeDecodeError:
+                continue
         try:
-          coords = coors(f'{folder_name}/{file}')
-        except UnicodeDecodeError:
-          continue
+            coords
+        except UnboundLocalError:
+            continue
         if coords not in coor_set:
-          coor_set.append(coords)
+            coor_set.append(coords)
     return coor_set
 
 
 def train_test_split(path_to_unzipped):
-    coordinates = folders_to_coors(tar)
+    coordinates = folders_to_coors(path_to_unzipped)
 
     train_set = []
     test_set = []
@@ -44,15 +49,19 @@ def train_test_split(path_to_unzipped):
         if i % 2 == 0:
             train_set += chunk
         else:
-        test_set += chunk
+            test_set += chunk
         i += 1
 
     split = {'train' : [], 'test' : []}
     for file in os.listdir(path_to_unzipped):
         if file[-3:] == 'txt':
             try:
-                coords = coors(f'{tar}/{file}')
-        except UnicodeDecodeError:
+                coords = coors(os.path.join(path_to_unzipped, file))
+            except UnicodeDecodeError:
+                continue
+        try:
+            coords
+        except UnboundLocalError:
             continue
         if coords in train_set:
             split['train'].append(file[:-4])
