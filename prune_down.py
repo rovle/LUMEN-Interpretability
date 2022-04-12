@@ -25,4 +25,10 @@ def remove_some(fold, clas, n=0):
         os.remove(os.path.join(path, fold, clas, fp + '.jpg'))
         os.remove(os.path.join(path, fold, clas, fp + '.txt'))
 
-
+# remove_some('train', 'NYC', n=100000)
+# remove_some('train', 'LasVegas', n=300000)
+# remove_some('train', 'Firenca', n=240000)
+# remove_some('test', 'NYC', n=170000)
+# remove_some('test', 'LasVegas', n=350000)
+# remove_some('test', 'Firenca', n=260000)
+# remove_some('train', 'LasVegas', n=100000)
